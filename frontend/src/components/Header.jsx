@@ -1,8 +1,22 @@
 import { useState } from "react";
 import "./Header.css";
 
-function Header({ onSearch }) {
+function Header({ onSearch, currentUser }) {
     const [query, setQuery] = useState("");
+    const [activeMenu, setActiveMenu] = useState("Trang chủ");
+
+    const menus = [
+        { name: "Trang chủ", href: "/" },
+        { name: "Danh sách", href: "#" },
+        { name: "Thể loại", href: "#categories" },
+        { name: "TOP BXH", href: "#ranking" },
+        { name: "Forum", href: "#forum" },
+        { name: "VIP", href: "#vip" },
+        { name: "Lịch sử", href: "#history" },
+        currentUser
+            ? { name: "Hồ sơ", href: "#profile" }
+            : { name: "Đăng nhập", href: "#login" }
+    ];
 
     function handleSubmit(event) {
         event.preventDefault();
@@ -26,23 +40,21 @@ function Header({ onSearch }) {
                         onChange={(event) => setQuery(event.target.value)}
                         placeholder="Tìm kiếm truyện..."
                     />
-                    <select aria-label="Tìm theo">
-                        <option>Tên truyện</option>
-                        <option>Thể loại</option>
-                    </select>
                     <button type="submit" aria-label="Tìm kiếm">⌕</button>
                 </form>
             </div>
 
-            <nav className="nav" aria-label="Điều hướng chính">
-                <a className="active" href="/">Trang chủ</a>
-                <a href="#categories">Danh sách</a>
-                <a href="#categories">Thể loại</a>
-                <a href="#latest">Kết hợp</a>
-                <a href="#latest">Full màu</a>
-                <a href="#latest">Không che</a>
-                <a href="#forum">Forum</a>
-                <a href="#login">Đăng nhập</a>
+            <nav className="nav" aria-label="Menu điều hướng">
+                {menus.map((menu) => (
+                    <a
+                        key={menu.name}
+                        href={menu.href}
+                        className={activeMenu === menu.name ? "active" : ""}
+                        onClick={() => setActiveMenu(menu.name)}
+                    >
+                        {menu.name}
+                    </a>
+                ))}
             </nav>
         </header>
     );

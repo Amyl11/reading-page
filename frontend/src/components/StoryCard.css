@@ -11,7 +11,7 @@
     display: block;
     aspect-ratio: 0.75;
     overflow: hidden;
-    background: var(--card-accent, #526d7a);
+    background: #526d7a;
 }
 
 .story-cover::after {
@@ -32,6 +32,7 @@
 .story-card:hover .story-cover img {
     transform: scale(1.06);
 }
+
 
 .chapter-badge {
     position: absolute;
@@ -70,7 +71,8 @@
     text-decoration: none;
 }
 
-.story-card h3 a:hover {
+.story-meta:hover h3 a,
+.story-cover:hover .chapter-badge {
     color: #79b9ed;
 }
 
