@@ -2,7 +2,8 @@ import { useMemo, useState } from "react";
 import "./App.css";
 import FeaturedCarousel from "./components/FeaturedCarousel";
 import Header from "./components/Header";
-import StoryCard from "./components/StoryCard";
+import HomeHighlights from "./components/HomeHighlights";
+import List from "./components/List";
 
 const stories = [
   {
@@ -94,25 +95,14 @@ function App() {
           <FeaturedCarousel stories={stories} />
         </section>
 
-        <section id="latest" className="section-panel latest-panel">
-          <div className="section-heading latest-heading">
-            <h2>Mới cập nhật <a href="#latest">| Xem thêm ▼</a></h2>
-            <div className="pagination" aria-label="Phân trang">
-              <button type="button" aria-label="Trang trước">‹</button>
-              <span>Trang 1</span>
-              <button type="button" aria-label="Trang sau">›</button>
-            </div>
-          </div>
-          <div className="story-list latest-list">
-            {filteredStories.length > 0 ? (
-              filteredStories.map((story) => (
-                <StoryCard key={story.title} {...story} />
-              ))
-            ) : (
-              <p className="empty-state">Không tìm thấy truyện phù hợp.</p>
-            )}
-          </div>
-        </section>
+        <List
+          id="latest"
+          title="Mới cập nhật"
+          stories={filteredStories}
+          showPagination={false}
+        />
+
+        <HomeHighlights stories={stories} />
 
         <footer className="site-footer">
           <span>Reading Page</span>
