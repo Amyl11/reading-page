@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import "./App.css";
+import FeaturedCarousel from "./components/FeaturedCarousel";
 import Header from "./components/Header";
 import StoryCard from "./components/StoryCard";
 
@@ -40,45 +41,58 @@ const stories = [
     author: "Mystery",
     cover: "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=700&q=85",
   },
+  {
+    title: "Mật mã trong thư viện",
+    chapter: "Chương 14",
+    author: "Mystery",
+    cover: "https://images.unsplash.com/photo-1526243741027-444d633d7365?auto=format&fit=crop&w=700&q=85",
+  },
+  {
+    title: "Căn nhà bên bờ biển",
+    chapter: "Chương 09",
+    author: "Drama",
+    cover: "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=700&q=85",
+  },
+  {
+    title: "Ngày mai sẽ có nắng",
+    chapter: "Chương 18",
+    author: "Romance",
+    cover: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=700&q=85",
+  },
+  {
+    title: "Qua miền ký ức",
+    chapter: "Chương 06",
+    author: "Adventure",
+    cover: "https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=700&q=85",
+  },
 ];
 
 function App() {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [keyword, setkeyword] = useState("");
 
   const filteredStories = useMemo(() => {
-    const normalizedSearch = searchTerm.trim().toLowerCase();
+    const normalizedSearch = keyword.trim().toLowerCase();
 
     if (!normalizedSearch) {
       return stories;
     }
 
     return stories.filter((story) =>
-      `${story.title} ${story.category}`.toLowerCase().includes(normalizedSearch),
+      `${story.title} ${story.author}`.toLowerCase().includes(normalizedSearch),
     );
-  }, [searchTerm]);
+  }, [keyword]);
 
   return (
     <div className="site-shell">
-      <Header onSearch={setSearchTerm} />
+      <Header onSearch={setkeyword} />
 
       <main className="content">
         <section className="section-panel featured-panel">
           <div className="section-heading featured-heading">
             <h1>Truyện nổi bật</h1>
-            <a href="#latest">Xem thêm <span aria-hidden="true">▼</span></a>
           </div>
-          <div className="story-list featured-list">
-            {stories.slice(0, 6).map((story) => (
-              <StoryCard key={story.title} {...story} />
-            ))}
-          </div>
+          <FeaturedCarousel stories={stories} />
         </section>
-
-        <aside className="notice" aria-label="Thông báo">
-          <strong>✓ Có thể bạn chưa biết:</strong> Bạn chỉ tốn vài phút để đọc một truyện,
-          nhưng người dịch đã tốn hàng giờ. Hãy đăng ký và ủng hộ các tác giả nhé.
-          <a href="#register">Đăng ký / Đăng nhập</a>
-        </aside>
 
         <section id="latest" className="section-panel latest-panel">
           <div className="section-heading latest-heading">
