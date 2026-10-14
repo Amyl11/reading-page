@@ -1,43 +1,34 @@
-import { useState } from "react";
+import { NavLink } from "react-router-dom";
 import "./Header.css";
 
-function Header({ onSearch, currentUser }) {
-    const [query, setQuery] = useState("");
-    const [activeMenu, setActiveMenu] = useState("Trang chủ");
-
+function Header({ currentUser }) {
     const menus = [
-        { name: "Trang chủ", href: "/" },
-        { name: "Danh sách", href: "#" },
-        { name: "Thể loại", href: "#categories" },
-        { name: "TOP BXH", href: "#ranking" },
-        { name: "Forum", href: "#forum" },
-        { name: "VIP", href: "#vip" },
-        { name: "Lịch sử", href: "#history" },
+        { name: "Trang chủ", to: "/" },
+        { name: "Danh sách", to: "/list" },
+        { name: "Thể loại", to: "/categories" },
+        { name: "TOP BXH", to: "/ranking" },
+        { name: "Forum", to: "/forum" },
+        { name: "VIP", to: "/vip" },
+        { name: "Lịch sử", to: "/history" },
         currentUser
-            ? { name: "Hồ sơ", href: "#profile" }
-            : { name: "Đăng nhập", href: "#login" }
+            ? { name: "Hồ sơ", to: "/profile" }
+            : { name: "Đăng nhập", to: "/login" }
     ];
-
-    function handleSubmit(event) {
-        event.preventDefault();
-        onSearch(query);
-    }
 
     return (
         <header className="header">
             <div className="header-top">
-                <a className="logo" href="/" aria-label="Reading Page - Trang chủ">
+                <NavLink className="logo" to="/" aria-label="Reading Page - Trang chủ">
                     <span className="logo-mark" aria-hidden="true">R</span>
                     <span>Reading<span>Page</span></span>
-                </a>
+                </NavLink>
 
-                <form className="search-form" onSubmit={handleSubmit}>
+                <form className="search-form" action="/list" method="get">
                     <label className="sr-only" htmlFor="story-search">Tìm kiếm truyện</label>
                     <input
                         id="story-search"
+                        name="search"
                         type="search"
-                        value={query}
-                        onChange={(event) => setQuery(event.target.value)}
                         placeholder="Tìm kiếm truyện..."
                     />
                     <button type="submit" aria-label="Tìm kiếm">⌕</button>
@@ -46,14 +37,14 @@ function Header({ onSearch, currentUser }) {
 
             <nav className="nav" aria-label="Menu điều hướng">
                 {menus.map((menu) => (
-                    <a
+                    <NavLink
                         key={menu.name}
-                        href={menu.href}
-                        className={activeMenu === menu.name ? "active" : ""}
-                        onClick={() => setActiveMenu(menu.name)}
+                        to={menu.to}
+                        end={menu.to === "/"}
+                        className={({ isActive }) => isActive ? "active" : ""}
                     >
                         {menu.name}
-                    </a>
+                    </NavLink>
                 ))}
             </nav>
         </header>
